@@ -9,7 +9,7 @@ public class WaveConfig
 {
     public int MulCount { get; set; } = 0;
     public float EnemyMultiplyPerPlayers { get; } = 0.1f;//플레이어당 유닛 배율(2인 이상에서만 유효)
-    public float SupplyMultiplyPerPlayers { get; } = 0.25f;//플레이어당 보급 배율(2인 이상에서만 유효)
+    public float SupplyMultiplyPerPlayers { get; } = 0.05f;//플레이어당 보급 배율(2인 이상에서만 유효)
 
     public void OnHurting(PlayerEventArgs.HurtingEventArgs ev)
     {

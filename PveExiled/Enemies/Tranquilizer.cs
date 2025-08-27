@@ -9,7 +9,6 @@ using InventorySystem;
 using InventorySystem.Items;
 using Exiled.API.Features;
 using System.Collections.Generic;
-using SemanticVersioning;
 using InventorySystem.Items.Firearms.Modules.Misc;
 using Mirror;
 using Exiled.API.Features.Roles;

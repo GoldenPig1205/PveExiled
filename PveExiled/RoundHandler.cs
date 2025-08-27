@@ -19,6 +19,7 @@ using Mirror;
 using PlayerEvents = Exiled.Events.Handlers.Player;
 using ServerEventArgs = Exiled.Events.EventArgs.Server;
 using LabApi;
+using MultiBroadcast.API;
 
 public class RoundHandler
 {
@@ -117,7 +118,6 @@ public class RoundHandler
     public void OnEndingRound()//라운드종료
     {
         if (!roundStarted) return;
-        Map.Broadcast(message: "라종", duration: 4);
         roundStarted = false;
         Round.IsLocked = false;
 
@@ -155,7 +155,7 @@ public class RoundHandler
             int mulCount = waveConfig.MulCount;
             SpawnPlayers();
 
-            Map.ShowHint("PlayerCount: " + (mulCount + 1), duration: 10);
+            //Map.ShowHint("PlayerCount: " + (mulCount + 1), duration: 10);
             foreach (WaveConfig.SupplySpawnInfo itemInfo in waveInfo.SupplySpawnInfos)//보급품
             {
                 for (int i = 0; i < (int)(itemInfo.Amount + mulCount * itemInfo.Amount * waveConfig.SupplyMultiplyPerPlayers); i++)
@@ -181,10 +181,18 @@ public class RoundHandler
 
             for (int i = waveInfo.IntermissionTime; i > 0 ; i--)//타이머
             {
-                Map.Broadcast(message: i.ToString(), duration: 1);
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(1, i.ToString());
+                }
+
                 yield return Timing.WaitForSeconds(1);
             }
-            Map.Broadcast(message: waveInfo.BCtext, duration: 10);
+
+            foreach (var player in Player.List)
+            {
+                player.AddBroadcast(message: waveInfo.BCtext, duration: 10);
+            }
 
             foreach (WaveConfig.EnemySpawnInfo spawnInfo in waveInfo.EnemySpawnInfos)//적 스폰
             {
@@ -197,7 +205,6 @@ public class RoundHandler
             while (enemies.Count > 0 && GetAlivePlayerCount() > 0) yield return Timing.WaitForSeconds(5);//ㄱㄷ
             if (GetAlivePlayerCount() <= 0) { won = false; break; }
         }
-        Map.Broadcast(message: won.ToString(), duration: 4);
         OnEndingRound();
     }
 
@@ -215,7 +222,7 @@ public class RoundHandler
                 player.Position = playerSpawnPoint;
                 player.Inventory.ServerAddItem(ItemType.GunCOM18, InventorySystem.Items.ItemAddReason.AdminCommand);
                 player.Inventory.ServerAddAmmo(ItemType.Ammo9x19, 40);
-                player.EnableEffect<HeavyFooted>(255, -1, false);
+                player.EnableEffect(EffectType.HeavyFooted, 255, -1, false);
             });
         }
     }
