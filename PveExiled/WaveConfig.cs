@@ -13,6 +13,7 @@ public class WaveConfig
 
     public void OnHurting(PlayerEventArgs.HurtingEventArgs ev)
     {
+        if (ev.Player == null) return;
         if (ev.Attacker == null) return;
         if (!ev.Attacker.IsNPC) return;
         if (ev.Player.IsNPC) { ev.IsAllowed = false; return; }
@@ -43,28 +44,28 @@ public class WaveConfig
                     bcText: "Wave 1(ClassD)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {
-                        new SupplySpawnInfo(ItemType.Painkillers, 4),
-                        new SupplySpawnInfo(ItemType.Adrenaline, 2),
+                        new SupplySpawnInfo(ItemType.GunFSP9, 1),
+                        new SupplySpawnInfo(ItemType.ArmorLight, 1),
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
                         new EnemySpawnInfo("ClassD", 5),
-                    },
-                    supplyGiveInfos: new List<ItemType>(){ ItemType.Adrenaline, ItemType.MicroHID }
+                    }
             ),
             new WaveInfo(
                     intermissionTime: 5,
                     bcText: "Wave 2(Cloaker)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {
+                        new SupplySpawnInfo(ItemType.GunFSP9, 1),
                         new SupplySpawnInfo(ItemType.ArmorLight, 1),
-                        new SupplySpawnInfo(ItemType.Medkit, 3),
-                        new SupplySpawnInfo(ItemType.Ammo9x19, 5),
+                        new SupplySpawnInfo(ItemType.SCP1344, 1),
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
                         new EnemySpawnInfo("Cloaker", 1),
-                    }
+                    },
+                    supplyGiveInfos: new List<ItemType>(){ ItemType.Medkit, ItemType.Painkillers, ItemType.Ammo9x19 }
             ),
             new WaveInfo(
                     intermissionTime: 5,
@@ -73,89 +74,77 @@ public class WaveConfig
                     {
                         new SupplySpawnInfo(ItemType.GunCrossvec, 2),
                         new SupplySpawnInfo(ItemType.ArmorCombat, 2),
-                        new SupplySpawnInfo(ItemType.Medkit, 3),
-                        new SupplySpawnInfo(ItemType.Adrenaline, 3),
-                        new SupplySpawnInfo(ItemType.Ammo9x19, 8),
+                        new SupplySpawnInfo(ItemType.SCP1344, 2),
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
                         new EnemySpawnInfo("Demolisher", 1),
-                    }
+                    },
+                    supplyGiveInfos: new List<ItemType>(){ ItemType.Medkit, ItemType.Ammo9x19, ItemType.Ammo9x19, ItemType.Ammo9x19 }
             ),
             new WaveInfo(
                     intermissionTime: 5,
                     bcText: "Wave 4(Juggernaut)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {
-                        new SupplySpawnInfo(ItemType.Medkit, 5),
                         new SupplySpawnInfo(ItemType.Adrenaline, 3),
-                        new SupplySpawnInfo(ItemType.Ammo9x19, 10),
-                        new SupplySpawnInfo(ItemType.GunE11SR, 2),
+                        new SupplySpawnInfo(ItemType.GunCrossvec, 2),
                         new SupplySpawnInfo(ItemType.ArmorHeavy, 1),
-                        new SupplySpawnInfo(ItemType.Ammo556x45, 5),
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
                         new EnemySpawnInfo("Juggernaut", 1),
-                    }
+                    },
+                    supplyGiveInfos: new List<ItemType>(){ ItemType.Medkit, ItemType.Adrenaline, ItemType.Ammo9x19 }
             ),
             new WaveInfo(
                     intermissionTime: 5,
                     bcText: "Wave 5(Pyromancer)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {
-                        new SupplySpawnInfo(ItemType.Medkit, 3),
-                        new SupplySpawnInfo(ItemType.Adrenaline, 3),
-                        new SupplySpawnInfo(ItemType.SCP500, 1),
                         new SupplySpawnInfo(ItemType.SCP268, 1),
-                        new SupplySpawnInfo(ItemType.Ammo9x19, 10),
+                        new SupplySpawnInfo(ItemType.GunE11SR, 2),
+                        new SupplySpawnInfo(ItemType.ArmorHeavy, 2),
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
                         new EnemySpawnInfo("Pyromancer", 1),
-                    }
+                    },
+                    supplyGiveInfos: new List<ItemType>(){ ItemType.SCP500, ItemType.Adrenaline, ItemType.Ammo9x19, ItemType.Ammo556x45 }
             ),
             new WaveInfo(
                     intermissionTime: 5,
                     bcText: "Wave 6(Scout)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {
-                        new SupplySpawnInfo(ItemType.Medkit, 3),
-                        new SupplySpawnInfo(ItemType.Adrenaline, 3),
                         new SupplySpawnInfo(ItemType.SCP500, 1),
                         new SupplySpawnInfo(ItemType.SCP268, 1),
                         new SupplySpawnInfo(ItemType.GunLogicer, 1),
-                        new SupplySpawnInfo(ItemType.ArmorHeavy, 1),
-                        new SupplySpawnInfo(ItemType.Ammo556x45, 10),
-                        new SupplySpawnInfo(ItemType.Ammo9x19, 10),
-                        new SupplySpawnInfo(ItemType.Ammo762x39, 10),
+                        new SupplySpawnInfo(ItemType.ArmorHeavy, 2),
+                        new SupplySpawnInfo(ItemType.Ammo762x39, 5),
 
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
                         new EnemySpawnInfo("Scout", 1),
-                    }
+                    },
+                    supplyGiveInfos: new List<ItemType>(){ ItemType.GunCrossvec, ItemType.Medkit, ItemType.Ammo9x19, ItemType.Ammo556x45 }
             ),
             new WaveInfo(
                     intermissionTime: 5,
                     bcText: "Wave 7(Tranquilizer)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {
-                        new SupplySpawnInfo(ItemType.Medkit, 3),
-                        new SupplySpawnInfo(ItemType.Adrenaline, 3),
+                        new SupplySpawnInfo(ItemType.GunLogicer, 2),
                         new SupplySpawnInfo(ItemType.SCP500, 1),
-                        new SupplySpawnInfo(ItemType.SCP268, 1),
-                        new SupplySpawnInfo(ItemType.GunLogicer, 1),
-                        new SupplySpawnInfo(ItemType.ArmorHeavy, 1),
-                        new SupplySpawnInfo(ItemType.Ammo556x45, 10),
-                        new SupplySpawnInfo(ItemType.Ammo9x19, 10),
                         new SupplySpawnInfo(ItemType.Ammo762x39, 10),
 
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
                         new EnemySpawnInfo("Tranquilizer", 1),
-                    }
+                    },
+                    supplyGiveInfos: new List<ItemType>(){ ItemType.GunCrossvec, ItemType.Medkit, ItemType.Ammo9x19, ItemType.Ammo556x45 }
             ),
     };
     //타입
