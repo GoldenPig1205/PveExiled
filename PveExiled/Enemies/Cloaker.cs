@@ -47,7 +47,7 @@ namespace Enemies
             selfPlayer.ClearInventory();
             selfPlayer.MaxHealth = 100;
             selfPlayer.Health = 100;//항상100
-            fpc = selfPlayer.Role.Base as IFpcRole;
+            fpc = selfPlayer.RoleManager.CurrentRole as IFpcRole;
             pathCompCheckTime = 0.1f;
 
             selfPlayer.Inventory.ServerAddItem(ItemType.ArmorHeavy, ItemAddReason.AdminCommand);

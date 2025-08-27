@@ -45,7 +45,7 @@ namespace Enemies
             selfPlayer.ClearInventory();
             selfPlayer.MaxHealth = 80 + mulCount*5;//35명 -> 255HP
             selfPlayer.Health = 80 + mulCount * 5;
-            fpc = selfPlayer.Role.Base as IFpcRole;
+            fpc = selfPlayer.RoleManager.CurrentRole as IFpcRole;
 
             ItemBase item = selfPlayer.Inventory.ServerAddItem(ItemType.GunCOM18, ItemAddReason.AdminCommand);
             selfPlayer.Inventory.ServerSelectItem(item.ItemSerial);

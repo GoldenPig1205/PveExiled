@@ -39,7 +39,7 @@ public class WaveConfig
     public WaveInfo[] Waves { get; } = new WaveInfo[7]//웨이브 구조
     {
             new WaveInfo(
-                    intermissionTime: 30,
+                    intermissionTime: 10,
                     bcText: "Wave 1(ClassD)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {

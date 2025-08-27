@@ -50,7 +50,7 @@ namespace Enemies
             selfPlayer.ClearInventory();
             selfPlayer.MaxHealth = 150 + mulCount*5;//35명 -> 325HP
             selfPlayer.Health = 150 + mulCount * 5;
-            fpc = selfPlayer.Role.Base as IFpcRole;
+            fpc = selfPlayer.RoleManager.CurrentRole as IFpcRole;
 
             Firearm item = Firearm.Create(FirearmType.Com15);
             item.Give(selfPlayer);
