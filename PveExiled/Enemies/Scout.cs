@@ -42,7 +42,7 @@ namespace Enemies
         InventorySystem.Items.Firearms.Modules.MagazineModule magModule;
         public Scout(string enemyName, Vector3 spawnPos, int id, Dictionary<int, Enemy> container, int mulCount) : base(enemyName, spawnPos, id, container, mulCount)
         {
-            selfPlayer.RoleManager.ServerSetRole(PlayerRoles.RoleTypeId.ChaosConscript, PlayerRoles.RoleChangeReason.RemoteAdmin);
+            selfPlayer.Role.Set(PlayerRoles.RoleTypeId.ChaosConscript);
             selfPlayer.EnableEffect<SpawnProtected>(5, true);
             selfPlayer.ClearInventory();
             selfPlayer.MaxHealth = 100 + mulCount*5;//35명 -> 275HP

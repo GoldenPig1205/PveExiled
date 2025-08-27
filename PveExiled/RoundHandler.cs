@@ -34,7 +34,7 @@ public class RoundHandler
     private int cursor = 0;
     public void OnRoundStarted()
     {
-        OnEndingRound();
+        //OnEndingRound();
         roundStarted = true;
 
         NavMesh.RemoveAllNavMeshData();
@@ -42,6 +42,8 @@ public class RoundHandler
         //이벤트연결
         PlayerEvents.Hurting += waveConfig.OnHurting;
         Exiled.Events.Handlers.Map.PickupAdded += waveConfig.OnPickupAdded;
+        Exiled.Events.Handlers.Map.PlacingBulletHole += waveConfig.OnPlacingBulletHole;
+        Exiled.Events.Handlers.Server.RespawningTeam += waveConfig.OnRespawningTeam;
 
         Round.IsLocked = true;
         foreach (Door door in Door.List)//문잠금
@@ -124,6 +126,8 @@ public class RoundHandler
         //이벤트해제
         PlayerEvents.Hurting -= waveConfig.OnHurting;
         Exiled.Events.Handlers.Map.PickupAdded -= waveConfig.OnPickupAdded;
+        Exiled.Events.Handlers.Map.PlacingBulletHole -= waveConfig.OnPlacingBulletHole;
+        Exiled.Events.Handlers.Server.RespawningTeam -= waveConfig.OnRespawningTeam;
 
         NavMesh.RemoveAllNavMeshData();
         Timing.KillCoroutines(runningRound);
@@ -143,6 +147,9 @@ public class RoundHandler
         bool won = true;
         foreach (WaveConfig.WaveInfo waveInfo in waveConfig.Waves)
         {
+            Exiled.API.Features.Map.CleanAllRagdolls();
+            Exiled.API.Features.Map.Clean(Decals.DecalPoolType.Blood);
+            Exiled.API.Features.Map.Clean(Decals.DecalPoolType.GlassCrack);
             DummyUtils.DestroyAllDummies();
             waveConfig.MulCount = Player.Count-1;
             int mulCount = waveConfig.MulCount;
@@ -158,6 +165,19 @@ public class RoundHandler
                     pickup.Spawn();
                 }
             }
+            Timing.CallDelayed(0.5f, () => {//템지급
+                if (waveInfo.SupplyGiveInfos != null)
+                {
+                    foreach (ItemType itemType in waveInfo.SupplyGiveInfos)
+                    {
+                        foreach (Player player in Player.List)
+                        {
+                            if (!IsAlivePlayer(player)) continue;
+                            player.AddItem(itemType);
+                        }
+                    }
+                }
+            });
 
             for (int i = waveInfo.IntermissionTime; i > 0 ; i--)//타이머
             {
@@ -186,8 +206,8 @@ public class RoundHandler
         foreach(Player player in Player.List)
         {
             if (!IsValidPlayer(player)) continue;
-            if (player.Role == RoleTypeId.NtfSergeant) continue;
-            player.RoleManager.ServerSetRole(RoleTypeId.NtfSergeant, RoleChangeReason.RemoteAdmin);
+            if (player.Role.Type == RoleTypeId.NtfSergeant) continue;
+            player.Role.Set(RoleTypeId.NtfSergeant);
             Timing.CallDelayed(0.5f, () =>
             {
                 if (player == null || player.Role.Type != RoleTypeId.NtfSergeant) return;
@@ -222,7 +242,7 @@ public class RoundHandler
         foreach (Player player in Player.List)
         {
             if (!IsValidPlayer(player)) continue;
-            if (player.Role != RoleTypeId.NtfSergeant) continue;
+            if (player.Role.Type != RoleTypeId.NtfSergeant) continue;
             count++;
         }
         return count;
@@ -237,7 +257,7 @@ public class RoundHandler
     {
         if (player == null) return false;
         if (player.UserId == "ID_Dedicated" || player.UserId == "ID_Dummy" || player.IsNPC) return false;
-        if (player.Role != RoleTypeId.NtfSergeant) return false;
+        if (player.Role.Type != RoleTypeId.NtfSergeant) return false;
         return true;
     }
 }

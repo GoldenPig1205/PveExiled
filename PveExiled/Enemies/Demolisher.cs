@@ -36,7 +36,7 @@ namespace Enemies
         DummyAction? useAction;
         public Demolisher(string enemyName, Vector3 spawnPos, int id, Dictionary<int, Enemy> container, int mulCount) : base(enemyName, spawnPos, id, container, mulCount)
         {
-            selfPlayer.RoleManager.ServerSetRole(PlayerRoles.RoleTypeId.ClassD, PlayerRoles.RoleChangeReason.RemoteAdmin);
+            selfPlayer.Role.Set(PlayerRoles.RoleTypeId.ClassD);
             selfPlayer.EnableEffect<MovementBoost>(35, -1, false);
             selfPlayer.EnableEffect<Scp207>(1, -1, false);
             selfPlayer.EnableEffect<SpawnProtected>(5, true);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using PlayerEventArgs = Exiled.Events.EventArgs.Player;
 using MapEventArgs = Exiled.Events.EventArgs.Map;
+using ServerEventArgs = Exiled.Events.EventArgs.Server;
 using Exiled.API.Features.Items;
 
 public class WaveConfig
@@ -32,11 +33,13 @@ public class WaveConfig
         if (!ev.Pickup.PreviousOwner.IsNPC) return;
         ev.Pickup.Destroy();
     }
+    public void OnPlacingBulletHole(MapEventArgs.PlacingBulletHoleEventArgs ev) { ev.IsAllowed = false; }
+    public void OnRespawningTeam(ServerEventArgs.RespawningTeamEventArgs ev) { ev.IsAllowed = false; }
 
     public WaveInfo[] Waves { get; } = new WaveInfo[7]//웨이브 구조
     {
             new WaveInfo(
-                    intermissionTime: 5,
+                    intermissionTime: 30,
                     bcText: "Wave 1(ClassD)",
                     supplySpawnInfos: new List<SupplySpawnInfo>
                     {
@@ -45,8 +48,9 @@ public class WaveConfig
                     },
                     enemySpawnInfos: new List<EnemySpawnInfo>
                     {
-                        new EnemySpawnInfo("ClassD", 1),
-                    }
+                        new EnemySpawnInfo("ClassD", 5),
+                    },
+                    supplyGiveInfos: new List<ItemType>(){ ItemType.Adrenaline, ItemType.MicroHID }
             ),
             new WaveInfo(
                     intermissionTime: 5,
@@ -176,11 +180,21 @@ public class WaveConfig
             Amount = amount;
         }
     }
+    public class SupplyGiveInfo
+    {
+        public ItemType Type { get; }
+
+        public SupplyGiveInfo(ItemType type)
+        {
+            Type = type;
+        }
+    }
     public class WaveInfo
     {
         public List<EnemySpawnInfo> EnemySpawnInfos { get; }
         public int IntermissionTime { get; }
         public List<SupplySpawnInfo> SupplySpawnInfos { get; }
+        public List<ItemType> SupplyGiveInfos { get; }
 
         public string BCtext { get; }
 
@@ -188,12 +202,14 @@ public class WaveConfig
             List<EnemySpawnInfo> enemySpawnInfos,
             int intermissionTime,
             List<SupplySpawnInfo> supplySpawnInfos,
-            string bcText)
+            string bcText,
+            List<ItemType> supplyGiveInfos = null)
         {
             IntermissionTime = intermissionTime;
             SupplySpawnInfos = supplySpawnInfos;
             EnemySpawnInfos = enemySpawnInfos;
             BCtext = bcText;
+            SupplyGiveInfos = supplyGiveInfos;
 
         }
     }

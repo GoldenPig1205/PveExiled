@@ -41,7 +41,7 @@ namespace Enemies
         InventorySystem.Items.MicroHID.MicroHIDItem hid;
         public Pyromancer(string enemyName, Vector3 spawnPos, int id, Dictionary<int, Enemy> container, int mulCount) : base(enemyName, spawnPos, id, container, mulCount)
         {
-            selfPlayer.RoleManager.ServerSetRole(PlayerRoles.RoleTypeId.ChaosRepressor, PlayerRoles.RoleChangeReason.RemoteAdmin);
+            selfPlayer.Role.Set(PlayerRoles.RoleTypeId.ChaosRepressor);
             selfPlayer.EnableEffect<SpawnProtected>(5, true);
             selfPlayer.ClearInventory();
             selfPlayer.MaxHealth = 250 + mulCount*12;//35명 -> 670HP

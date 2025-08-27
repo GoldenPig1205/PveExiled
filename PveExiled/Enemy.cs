@@ -119,12 +119,12 @@ public class Enemy
     protected Player GetClosestPlayer()
     {
         if (removed) return null;
-        float bestDistance = 100000;
+        float bestDistance = float.MaxValue;
         Player best = null;
         foreach (Player player in Player.List)
         {
             if (!IsTargetablePlayer(player)) continue;
-            float distance = (player.Position - hub.transform.position).magnitude;
+            float distance = (player.Position - hub.transform.position).sqrMagnitude;
             if (distance < bestDistance)
             {
                 bestDistance = distance;
@@ -158,7 +158,7 @@ public class Enemy
     {
         if (player == null) return false;
         if (player.UserId == "ID_Dedicated" || player.UserId == "ID_Dummy" || player.IsNPC) return false;
-        if (player.Role != RoleTypeId.NtfSergeant) return false;
+        if (player.Role.Type != RoleTypeId.NtfSergeant) return false;
         if (!hiddenDetect && player.IsEffectActive<Invisible>()) return false;
         return true;
     }
